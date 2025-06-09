@@ -377,9 +377,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         const closeConfirmDeleteBtn = confirmDeleteModal.querySelector('.close');
         const confirmDeleteButton = document.getElementById('confirmDeleteButton');
         
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const id = this.closest('.pesanan-card').getAttribute('data-id');
                 confirmDeleteButton.setAttribute('data-id', id);
                 confirmDeleteModal.style.display = 'block';
                 confirmDeleteModal.classList.add('show');
@@ -404,15 +404,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         // JavaScript untuk menghapus pesanan
         confirmDeleteButton.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
-            fetch(`delete_pesanan.php?id=${id}`)
+            fetch('delete_pesanan.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `id_pesanan=${id}`
+            })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert('Pesanan berhasil dihapus.');
-                        location.reload();
+                        alert('Pesanan berhasil dihapus. Detail rows: ' + data.detail_rows + ', Pesanan rows: ' + data.pesanan_rows);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 2000);
                     } else {
                         alert('Gagal menghapus pesanan: ' + data.message);
                     }
+                    closeConfirmDeleteModal();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat menghapus pesanan');
                     closeConfirmDeleteModal();
                 });
         });
