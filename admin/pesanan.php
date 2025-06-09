@@ -8,7 +8,7 @@ if(!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
 
 // Ambil data pesanan dari database
 $pesanan = [];
-$query = "SELECT p.id_pesanan, p.nama_pemesan, SUM(dp.harga_satuan * dp.jumlah) as total_harga, p.tanggal_pesanan, COUNT(dp.id_barang) as jumlah_item
+$query = "SELECT p.id_pesanan, p.nama_pemesan, SUM(dp.harga_satuan * dp.jumlah) as total_harga, p.tanggal_pesanan, COUNT(dp.id_barang) as jumlah_item, p.status_pesanan
           FROM pesanan p
           LEFT JOIN detail_pesanan dp ON p.id_pesanan = dp.id_pesanan
           GROUP BY p.id_pesanan
@@ -16,6 +16,20 @@ $query = "SELECT p.id_pesanan, p.nama_pemesan, SUM(dp.harga_satuan * dp.jumlah) 
 $result = mysqli_query($koneksi, $query);
 while($row = mysqli_fetch_assoc($result)) {
     $pesanan[] = $row;
+}
+
+// Update status pesanan
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_status') {
+    $id_pesanan = $_POST['id_pesanan'];
+    $status_pesanan = $_POST['status_pesanan'];
+    
+    $query = "UPDATE pesanan SET status_pesanan = ? WHERE id_pesanan = ?";
+    $stmt = mysqli_prepare($koneksi, $query);
+    mysqli_stmt_bind_param($stmt, 'si', $status_pesanan, $id_pesanan);
+    mysqli_stmt_execute($stmt);
+    
+    echo json_encode(['success' => true, 'message' => 'Status pesanan berhasil diperbarui']);
+    exit();
 }
 ?>
 
@@ -197,6 +211,30 @@ while($row = mysqli_fetch_assoc($result)) {
         .modal-footer button:hover {
             background-color: #da190b;
         }
+
+        .pesanan-card .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 5px;
+            color: white;
+        }
+
+        .pesanan-card .status.pending {
+            background-color: #ff9800;
+        }
+
+        .pesanan-card .status.selesai {
+            background-color: #4caf50;
+        }
+
+        .pesanan-card select {
+            margin-top: 10px;
+            padding: 5px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -206,16 +244,22 @@ while($row = mysqli_fetch_assoc($result)) {
         <h1>Kelola Pesanan</h1>
         
         <div class="pesanan-container">
-            <?php foreach($pesanan as $order): ?>
-            <div class="pesanan-card">
-                <h3>Pesanan #<?php echo $order['id_pesanan']; ?></h3>
-                <p><strong>Nama Pemesan:</strong> <?php echo $order['nama_pemesan']; ?></p>
-                <p><strong>Tanggal:</strong> <?php echo date('d-m-Y H:i', strtotime($order['tanggal_pesanan'])); ?></p>
-                <p><strong>Total Harga:</strong> Rp <?php echo number_format($order['total_harga'], 0, ',', '.'); ?></p>
-                <p><strong>Jumlah Item:</strong> <?php echo $order['jumlah_item']; ?></p>
-                <button class="detail-btn" data-id="<?php echo $order['id_pesanan']; ?>">Lihat Detail</button>
-                <button class="delete-btn" data-id="<?php echo $order['id_pesanan']; ?>">Hapus</button>
-            </div>
+            <?php foreach ($pesanan as $order): ?>
+                <div class="pesanan-card" data-id="<?php echo $order['id_pesanan']; ?>">
+                    <h3>Pesanan #<?php echo $order['id_pesanan']; ?>
+                        <span class="status <?php echo strtolower($order['status_pesanan']); ?>"><?php echo $order['status_pesanan']; ?></span>
+                    </h3>
+                    <p><strong>Pemesan:</strong> <?php echo htmlspecialchars($order['nama_pemesan']); ?></p>
+                    <p><strong>Tanggal:</strong> <?php echo date('d M Y H:i', strtotime($order['tanggal_pesanan'])); ?></p>
+                    <p><strong>Total Harga:</strong> Rp <?php echo number_format($order['total_harga'], 0, ',', '.'); ?></p>
+                    <p><strong>Jumlah Item:</strong> <?php echo $order['jumlah_item']; ?></p>
+                    <select class="status-select" data-id="<?php echo $order['id_pesanan']; ?>">
+                        <option value="Pending" <?php echo $order['status_pesanan'] === 'Pending' ? 'selected' : ''; ?>>Pending</option>
+                        <option value="Selesai" <?php echo $order['status_pesanan'] === 'Selesai' ? 'selected' : ''; ?>>Selesai</option>
+                    </select>
+                    <button class="detail-btn">Lihat Detail</button>
+                    <button class="delete-btn">Hapus</button>
+                </div>
             <?php endforeach; ?>
             <?php if(empty($pesanan)): ?>
             <p>Tidak ada pesanan yang ditemukan.</p>
@@ -371,6 +415,39 @@ while($row = mysqli_fetch_assoc($result)) {
                     }
                     closeConfirmDeleteModal();
                 });
+        });
+
+        // Status update
+        const statusSelects = document.querySelectorAll('.status-select');
+        statusSelects.forEach(select => {
+            select.addEventListener('change', function() {
+                const id = this.getAttribute('data-id');
+                const status = this.value;
+                
+                fetch('', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=update_status&id_pesanan=${id}&status_pesanan=${status}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const card = this.closest('.pesanan-card');
+                        const statusSpan = card.querySelector('.status');
+                        statusSpan.textContent = status;
+                        statusSpan.className = `status ${status.toLowerCase()}`;
+                        alert('Status pesanan berhasil diperbarui');
+                    } else {
+                        alert('Gagal memperbarui status pesanan');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat memperbarui status');
+                });
+            });
         });
     </script>
 </body>

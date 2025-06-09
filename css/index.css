@@ -140,6 +140,132 @@
 .sticky-next .order-summary {
     font-size: 16px;
 }
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+.modal-content {
+    background: #fff;
+    margin: auto;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 450px;
+    min-width: 300px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: modalFadeIn 0.3s ease-out;
+}
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.modal .close, .modal .closeSuccess {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s;
+}
+.modal .close:hover, .modal .closeSuccess:hover {
+    color: #333;
+}
+.modal h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.modal h2 i {
+    margin-right: 10px;
+    color: #4CAF50;
+}
+#orderItems table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+#orderItems th, #orderItems td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+#orderItems th {
+    background: #f8f8f8;
+    font-weight: bold;
+    color: #555;
+}
+#modalError {
+    color: #e74c3c;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+    background: #ffebee;
+    padding: 8px;
+    border-radius: 5px;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+input[type="text"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+input[type="submit"], #successOkButton {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin: 0 auto;
+    transition: background 0.2s, transform 0.2s;
+}
+input[type="submit"]:hover, #successOkButton:hover {
+    background: #45a049;
+    transform: translateY(-2px);
+}
+#successModal h2 {
+    color: #4CAF50;
+}
+
 @media screen and (max-width: 768px) {
     .menu-items {
         flex-direction: column;

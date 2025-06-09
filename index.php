@@ -77,141 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/index.css">
-<style>
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.5);
-    z-index: 999;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(5px);
-}
-.modal-content {
-    background: #fff;
-    margin: auto;
-    padding: 30px;
-    border-radius: 15px;
-    max-width: 450px;
-    min-width: 300px;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    animation: modalFadeIn 0.3s ease-out;
-}
-@keyframes modalFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-.modal .close, .modal .closeSuccess {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 28px;
-    cursor: pointer;
-    color: #888;
-    transition: color 0.2s;
-}
-.modal .close:hover, .modal .closeSuccess:hover {
-    color: #333;
-}
-.modal h2 {
-    margin-top: 0;
-    font-size: 24px;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-}
-.modal h2 i {
-    margin-right: 10px;
-    color: #4CAF50;
-}
-#orderItems table {
-    width: 100%;
-    margin-bottom: 20px;
-    border-collapse: collapse;
-    font-size: 16px;
-}
-#orderItems th, #orderItems td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-}
-#orderItems th {
-    background: #f8f8f8;
-    font-weight: bold;
-    color: #555;
-}
-#modalError {
-    color: #e74c3c;
-    text-align: center;
-    margin-bottom: 15px;
-    font-size: 14px;
-    background: #ffebee;
-    padding: 8px;
-    border-radius: 5px;
-}
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #555;
-}
-input[type="text"] {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
-}
-input[type="text"]:focus {
-    border-color: #4CAF50;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
-}
-input[type="submit"], #successOkButton {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    display: block;
-    margin: 0 auto;
-    transition: background 0.2s, transform 0.2s;
-}
-input[type="submit"]:hover, #successOkButton:hover {
-    background: #45a049;
-    transform: translateY(-2px);
-}
-#successModal h2 {
-    color: #4CAF50;
-    font-size: 26px;
-    margin-bottom: 25px;
-}
-#successModal p {
-    text-align: center;
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 25px;
-}
-</style>
-
-    
 </head>
 <body>
     <?php include 'sidebar.php'; ?>
@@ -236,7 +101,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 5.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="1" data-price="5000" data-name="Teh Panas">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="6" data-price="5000" data-name="Teh Panas">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -253,7 +118,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 10.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="2" data-price="10000" data-name="Kopi Rempah">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="7" data-price="10000" data-name="Kopi Rempah">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -270,7 +135,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 15.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="3" data-price="15000" data-name="Coklat Panas">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="8" data-price="15000" data-name="Coklat Panas">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -287,7 +152,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 20.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="4" data-price="20000" data-name="Green Tea Lattee">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="9" data-price="20000" data-name="Green Tea Lattee">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -304,7 +169,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 20.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="5" data-price="20000" data-name="Cappucino">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="10" data-price="20000" data-name="Cappucino">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -321,7 +186,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 25.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="6" data-price="25000" data-name="Choco Marsmellow">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="11" data-price="25000" data-name="Choco Marsmellow">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -348,7 +213,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 20.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="7" data-price="20000" data-name="Nasi Soto Ayam">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="1" data-price="20000" data-name="Nasi Soto Ayam">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -365,7 +230,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 23.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="8" data-price="23000" data-name="Nasi Rawon">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="2" data-price="23000" data-name="Nasi Rawon">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -382,7 +247,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 20.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="9" data-price="20000" data-name="Nasi Ketela Sambal Matah">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="3" data-price="20000" data-name="Nasi Ketela Sambal Matah">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -399,7 +264,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 25.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="10" data-price="25000" data-name="Nasi Goreng Seafood">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="4" data-price="25000" data-name="Nasi Goreng Seafood">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -416,7 +281,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                         <div class="menu-item-price">Rp 20.000</div>
                         <div class="quantity-selector">
                             <button class="decrease-qty">-</button>
-                            <input type="number" min="0" value="0" class="item-qty" data-id="11" data-price="20000" data-name="Sayur Lodeh">
+                            <input type="number" min="0" value="0" class="item-qty" data-id="5" data-price="20000" data-name="Sayur Lodeh">
                             <button class="increase-qty">+</button>
                         </div>
                     </div>
@@ -501,9 +366,10 @@ input[type="submit"]:hover, #successOkButton:hover {
                     const quantity = parseInt(input.value);
                     if (quantity > 0) {
                         selectedItems.push({
+                            id: parseInt(input.getAttribute('data-id')),
                             name: input.getAttribute('data-name'),
-                            price: parseInt(input.getAttribute('data-price')),
-                            qty: quantity
+                            qty: quantity,
+                            price: parseInt(input.getAttribute('data-price'))
                         });
                     }
                 });
@@ -550,6 +416,7 @@ input[type="submit"]:hover, #successOkButton:hover {
                     if (qty > 0) {
                         items.push({
                             id: parseInt(input.getAttribute('data-id')),
+                            name: input.getAttribute('data-name'),
                             qty: qty,
                             price: parseInt(input.getAttribute('data-price'))
                         });
@@ -604,27 +471,27 @@ input[type="submit"]:hover, #successOkButton:hover {
         });
     </script>
 <!-- Modal Popup -->
-<div id="orderModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:999; align-items:center; justify-content:center;">
-  <div class="modal-content" style="background:#fff; margin:auto; padding:30px 20px; border-radius:8px; max-width:400px; min-width:300px; position:relative;">
-    <span class="close" style="position:absolute; top:10px; right:18px; font-size:32px; cursor:pointer;">&times;</span>
-    <h2 style="margin-top:0;">Konfirmasi Pesanan</h2>
+<div id="orderModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Konfirmasi Pesanan</h2>
     <div id="orderItems"></div>
-    <p style="color:red;" id="modalError"></p>
+    <p id="modalError"></p>
     <form id="orderForm">
       <label for="nama_pemesan">Nama Pemesan:</label><br>
-      <input type="text" id="nama_pemesan" name="nama_pemesan" required style="width:100%; padding:5px; margin-bottom:10px;">
-      <input type="submit" value="Submit Pesanan" style="background:#4CAF50; color:white; border:none; padding:8px 15px; border-radius:3px; cursor:pointer;">
+      <input type="text" id="nama_pemesan" name="nama_pemesan" required>
+      <input type="submit" value="Submit Pesanan">
     </form>
   </div>
 </div>
 
 <!-- Modal Popup Pemesanan Berhasil -->
-<div id="successModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:999; align-items:center; justify-content:center;">
-  <div class="modal-content" style="background:#fff; margin:auto; padding:30px 20px; border-radius:8px; max-width:400px; min-width:300px; position:relative;">
-    <span class="closeSuccess" style="position:absolute; top:10px; right:18px; font-size:32px; cursor:pointer;">&times;</span>
-    <h2 style="margin-top:0; color:#4CAF50;">Pemesanan Berhasil</h2>
+<div id="successModal" class="modal">
+  <div class="modal-content">
+    <span class="closeSuccess">&times;</span>
+    <h2>Pemesanan Berhasil</h2>
     <p>Pesanan Anda telah berhasil disimpan.</p>
-    <button id="successOkButton" style="background:#4CAF50; color:white; border:none; padding:8px 15px; border-radius:3px; cursor:pointer;">OK</button>
+    <button id="successOkButton">OK</button>
   </div>
 </div>
 </body>
